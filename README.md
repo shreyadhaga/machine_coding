@@ -1,0 +1,2 @@
+This repo will document all machine coding questions that have been practiced using React 
+Each folder will have a seperate question that will have clear expectations and crisp working code along with speaking prompts in the code for best practices
