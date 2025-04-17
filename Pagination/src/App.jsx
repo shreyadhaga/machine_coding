@@ -1,35 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
+import ProductCard from "./components/ProductCard";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  const PAGE_SIZE = 10;
+  const totalProducts = products.length;
+  const pages = Math.ceil(totalProducts / PAGE_SIZE);
+  const start = currentPage * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+
+  const fetchData = async () => {
+    let data = await fetch("https://dummyjson.com/products?limit=100");
+    let json = await data.json();
+    setProducts(json.products);
+  };
+
+  const handlePageChage = (n) => {
+    setCurrentPage(n);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  return !products.length ? (
+    <h1> No Products Found</h1>
+  ) : (
+    <div>
+      <h1> Pagination </h1>
+      <div className="pagination-container">
+        <span className="page-number" onClick={handlePrevPage}> Prev </span>
+        {[...Array(pages).keys()].map((n) => (
+          <span
+            key={n}
+            className="page-number"
+            onClick={() => handlePageChage(n)}
+          >
+            {n}
+          </span>
+        ))}
+        <span className="page-number" onClick={handleNextPage}> Next </span>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="products-container">
+        {products.slice(start, end).map((product) => (
+          <ProductCard
+            key={product.id}
+            image={product.thumbnail}
+            title={product.title}
+          />
+        ))}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
