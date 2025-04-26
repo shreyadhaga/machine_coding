@@ -5,7 +5,7 @@
   text-align: center;
 }
 
-.products-container{
+.products-container {
   display: flex;
   flex-wrap: wrap;
 }
@@ -24,13 +24,15 @@
   height: 200px;
 }
 
-.page-number{
+.page-number {
   border: 1px solid black;
-  padding : 5px;
+  padding: 5px;
   margin: 2px;
   cursor: pointer;
 }
-
-.pagination-container{
-  padding: 20px
+.page-number.active {
+  background-color: red;
+}
+.pagination-container {
+  padding: 20px;
 }

@@ -17,7 +17,12 @@ function App() {
     let json = await data.json();
     setProducts(json.products);
   };
-
+  const handlePrevPage = () =>{
+    setCurrentPage(prevState => prevState - 1)
+  }
+  const handleNextPage = () =>{
+    setCurrentPage(prevState => prevState + 1)
+  }
   const handlePageChage = (n) => {
     setCurrentPage(n);
   };
